@@ -85,5 +85,4 @@ public class GameStore {
         }
         return sum;
     }
-    
 }

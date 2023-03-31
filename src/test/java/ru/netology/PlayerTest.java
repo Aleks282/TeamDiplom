@@ -1,6 +1,7 @@
 package ru.netology;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 public class PlayerTest {
@@ -119,7 +120,6 @@ public class PlayerTest {
 
         assertEquals(game1, player.mostPlayerByGenre("Аркады"));
     }
-
 
     @Test
     public void shouldReturnNullIfGenreNotUsed() {
