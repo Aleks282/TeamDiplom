@@ -1,89 +1,147 @@
 package ru.netology;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class GameStoreTest {
+    GameStore store = new GameStore();
 
-    @Test
+    @Test  //Тест 1
     public void shouldAddGame() {
+        //Проверяет наличие одной добавленной игры
 
         GameStore store = new GameStore();
+
         Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
 
         assertTrue(store.containsGame(game));
     }
 
-    @Test
-    public void AddSomeGames() {
+    @Test  //Тест 2
+    public void shouldFindLastAddGame() {
+        // Найти последнюю игру, которая была добавлена
 
-        GameStore store = new GameStore();
         Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
-        Game game2 = store.publishGame("Казаки: Снова война", "Стратегии");
-        assertTrue(store.containsGame(game));
+        Game game2 = store.publishGame("Нетология2", "Аркады2");
+
         assertTrue(store.containsGame(game2));
 
     }
 
-    @Test
-    public void NoSuchGame() {
+    @Test  //Тест 3
+    public void shouldFindValueInAbsenceOfGame() { //Найти значение при отсутствии игры
 
-        GameStore store = new GameStore();
-        GameStore store2 = new GameStore();
-        Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
-        Game game2 = store2.publishGame("Казаки: Снова война", "Стратегии");
-        assertFalse(store.containsGame(game2));
+
+        assertTrue(store.containsGame(null));
     }
 
-    @Test
-    public void NoMostPlayerFind() {
+    @Test  //Тест 4
+    public void shouldFindTotalAmountTimePlayerSpentOnCertainGame() {// Найти полное количество времени,
+        // потраченного игроком на определенную игру
 
-        GameStore store = new GameStore();
-        Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
-        store.addPlayTime("Igor", 2);
-        String actual = store.getMostPlayer();
-        String expected = "Igor";
+
+        Game game = store.publishGame("Нетология2", "Аркады2");
+        Player player = new Player("Super");
+
+        store.addPlayTime("Super", 1);
+
+        Integer expected = 3;
+        Integer actual = store.addPlayTime("Super", 2);
+
         assertEquals(expected, actual);
     }
 
-    @Test
-    public void MostPlayerFind() {
+    @Test//Тест 5
+    public void findAmountOfTimeIfNoOnePlayedInCatalog() {//Найти количество времени, если в каталоге никто не играл
+        Integer expected = 0;
+        Integer actual = store.addPlayTime("null", 0);
 
-        GameStore store = new GameStore();
-        Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
-        store.addPlayTime("Igor", 4);
-        store.addPlayTime("Anton", 2);
-        store.addPlayTime("Igor", 3);
+        assertEquals(expected, actual);
+
+    }
+
+    @Test//Тест 6
+    public void findPlayerSpentMostTimePlayingInThisCatalog() {
+        //Найти игрока, который играл в игру дольше всего
+
+        Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");//Добавляем игру и жанр
+
+        Player player = new Player("Игрок1");//Добавляем игроков
+        Player player1 = new Player("Игрок2");
+
+        store.addPlayTime("Игрок1", 4);//Время каждого игрока ,которые играли в данную игру
+        store.addPlayTime("Игрок2", 6);
+
+
+        String expected = "Игрок2";
         String actual = store.getMostPlayer();
-        String expected = "Igor";
+
         assertEquals(expected, actual);
     }
 
-    @Test
-    public void MostPlayerFind2() {
+    @Test//Тест 7
 
-        GameStore store = new GameStore();
-        Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
-        store.addPlayTime("Igor", 4);
-        store.addPlayTime("Anton", 5);
-        store.addPlayTime("Igor", 3);
-        store.addPlayTime("Anton", 15);
+    public void findOnePlayerWithMoreTimeIfSameAmountOfTime() {
+        //Найти первого игрока с большим количеством времени, если есть одинаковое количество времени
+
+        Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");//Добавляем игру и жанр
+        Player player1 = new Player("Игрок1");//Добавляем игроков
+        Player player2 = new Player("Игрок2");
+        Player player3 = new Player("Игрок3");
+        Player player4 = new Player("Игрок4");
+        Player player5 = new Player("Игрок5");
+
+        store.addPlayTime("Игрок1", 4);//Время каждого игрока ,которые играли в данную игру
+        store.addPlayTime("Игрок2", 6);
+        store.addPlayTime("Игрок3", 7);
+        store.addPlayTime("Игрок4", 5);
+        store.addPlayTime("Игрок5", 7);
+
+        String expected = "Игрок3";
         String actual = store.getMostPlayer();
-        String expected = "Anton";
+
         assertEquals(expected, actual);
+
     }
 
-    @Test
-    public void SumTimeFind() {
+    @Test//Тест 8
+    public void shouldFindTotalAmountTimeAllPlayersSpentPlayingGamesInCatalog() {
+        //Найти общее количество времени всех игроков, проведённого за играми этого каталога
+        Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");//Добавляем игру и жанр
+        Player player1 = new Player("Игрок1");//Добавляем игроков
+        Player player2 = new Player("Игрок2");
+        Player player3 = new Player("Игрок3");
+        Player player4 = new Player("Игрок4");
+        Player player5 = new Player("Игрок5");
 
-        GameStore store = new GameStore();
-        Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
-        store.addPlayTime("Igor", 3);
-        store.addPlayTime("Anton", 4);
-        store.addPlayTime("Igor", 2);
+        store.addPlayTime("Игрок1", 4);//Время каждого игрока, которые играли в данную игру
+        store.addPlayTime("Игрок2", 6);
+        store.addPlayTime("Игрок3", 7);
+        store.addPlayTime("Игрок4", 5);
+        store.addPlayTime("Игрок5", 7);
+
+        int expected = 29;
         int actual = store.getSumPlayedTime();
-        int expected = 9;
+
         assertEquals(expected, actual);
+
+
     }
 
+    @Test
+    public void shouldFindTotalAmountOfTimeNoOneHasPlayed() {
+        //Найти общее(сумму)количество времени игры, если никто не играл в игру
+
+        Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
+
+        int expected = 0;
+        int actual = store.getSumPlayedTime();
+
+        assertEquals(expected, actual);
+    }
 }
+
+
+
