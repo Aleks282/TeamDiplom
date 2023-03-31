@@ -120,6 +120,7 @@ public class PlayerTest {
         assertEquals(game1, player.mostPlayerByGenre("Аркады"));
     }
 
+
     @Test
     public void shouldReturnNullIfGenreNotUsed() {
         GameStore store = new GameStore();
