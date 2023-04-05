@@ -30,13 +30,12 @@ public class GameStore {
      * если игра есть и false иначе
      */
     public boolean containsGame(Game game) {
-        for(int i = 1; i < this.games.size(); ++i) {
-            if (((Game)this.games.get(i - 1)).equals(game)) {
-                return false;
+        for (int i = 1; i < games.size(); i++) {
+            if (games.get(i - 1).equals(game)) {
+                return true;
             }
         }
-
-        return true;
+        return false;
     }
 
     /**
@@ -46,15 +45,13 @@ public class GameStore {
      *
      * @return
      */
-    public Integer addPlayTime(String playerName, Integer hours) {
+    public Integer addPlayTime(String playerName, int hours) {
         if (playedTime.containsKey(playerName)) {
-            int time = playedTime.get(playerName);
-            playedTime.put(playerName, time + hours);
-            return time + hours;
+            playedTime.put(playerName, playedTime.get(playerName));
         } else {
             playedTime.put(playerName, hours);
-            return hours;
         }
+        return null;
     }
 
     /**
@@ -79,10 +76,6 @@ public class GameStore {
      * за играми этого каталога
      */
     public int getSumPlayedTime() {
-        int sum = 0;
-        for (int value : playedTime.values()) {
-            sum += value;
-        }
-        return sum;
+        return 0;
     }
 }
